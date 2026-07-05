@@ -18,8 +18,7 @@ export class HmacSigner implements Signer {
     const expected = Buffer.from(this.sign(payload));
     const provided = Buffer.from(signature);
     return (
-      expected.length === provided.length &&
-      timingSafeEqual(expected, provided)
+      expected.length === provided.length && timingSafeEqual(expected, provided)
     );
   }
 }

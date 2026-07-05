@@ -4,6 +4,8 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
+type SignResponse = { signature: string };
+
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
 
@@ -80,7 +82,8 @@ describe('AppController (e2e)', () => {
         .post('/sign')
         .send({ message: 'Hello World', timestamp: 1616161616 })
         .expect(201);
-      expect(res.body.signature).toMatch(/^[a-f0-9]{64}$/);
+      const { signature } = res.body as SignResponse;
+      expect(signature).toMatch(/^[a-f0-9]{64}$/);
     });
 
     it('produces the same signature regardless of property order', async () => {
@@ -92,8 +95,10 @@ describe('AppController (e2e)', () => {
         .post('/sign')
         .send({ timestamp: 1616161616, message: 'Hello World' })
         .expect(201);
-      expect(a.body.signature).toMatch(/^[a-f0-9]{64}$/);
-      expect(a.body.signature).toBe(b.body.signature);
+      const { signature: signatureA } = a.body as SignResponse;
+      const { signature: signatureB } = b.body as SignResponse;
+      expect(signatureA).toMatch(/^[a-f0-9]{64}$/);
+      expect(signatureA).toBe(signatureB);
     });
   });
 
@@ -103,7 +108,7 @@ describe('AppController (e2e)', () => {
       request(app.getHttpServer())
         .post('/sign')
         .send(payload)
-        .then((res) => res.body.signature);
+        .then((res) => (res.body as SignResponse).signature);
 
     it('returns 204 for a valid signature', async () => {
       const signature = await sign(data);
@@ -117,7 +122,10 @@ describe('AppController (e2e)', () => {
       const signature = await sign(data);
       return request(app.getHttpServer())
         .post('/verify')
-        .send({ signature, data: { timestamp: 1616161616, message: 'Hello World' } })
+        .send({
+          signature,
+          data: { timestamp: 1616161616, message: 'Hello World' },
+        })
         .expect(204);
     });
 
@@ -125,7 +133,10 @@ describe('AppController (e2e)', () => {
       const signature = await sign(data);
       return request(app.getHttpServer())
         .post('/verify')
-        .send({ signature, data: { message: 'Goodbye World', timestamp: 1616161616 } })
+        .send({
+          signature,
+          data: { message: 'Goodbye World', timestamp: 1616161616 },
+        })
         .expect(400);
     });
 
