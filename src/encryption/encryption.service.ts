@@ -14,4 +14,15 @@ export class EncryptionService {
       ]),
     );
   }
+
+  decrypt(payload: Record<string, unknown>): Record<string, unknown> {
+    return Object.fromEntries(
+      Object.entries(payload).map(([key, value]) => [
+        key,
+        this.encryptor.isEncrypted(value)
+          ? this.encryptor.decrypt(value as string)
+          : value,
+      ]),
+    );
+  }
 }

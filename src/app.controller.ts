@@ -18,4 +18,9 @@ export class AppController {
   encrypt(@Body() payload: Record<string, unknown>) {
     return this.encryptionService.encrypt(payload);
   }
+
+  @Post('decrypt')
+  decrypt(@Body() payload: Record<string, unknown>) {
+    return this.encryptionService.decrypt(payload);
+  }
 }
