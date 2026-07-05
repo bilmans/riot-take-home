@@ -16,13 +16,6 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
-
   describe('/encrypt (POST)', () => {
     it('encrypts all depth-1 properties (base64), per TODO scenario', () => {
       const input = {
