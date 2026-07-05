@@ -74,6 +74,29 @@ describe('AppController (e2e)', () => {
     });
   });
 
+  describe('/sign (POST)', () => {
+    it('returns an HMAC signature', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/sign')
+        .send({ message: 'Hello World', timestamp: 1616161616 })
+        .expect(201);
+      expect(res.body.signature).toMatch(/^[a-f0-9]{64}$/);
+    });
+
+    it('produces the same signature regardless of property order', async () => {
+      const a = await request(app.getHttpServer())
+        .post('/sign')
+        .send({ message: 'Hello World', timestamp: 1616161616 })
+        .expect(201);
+      const b = await request(app.getHttpServer())
+        .post('/sign')
+        .send({ timestamp: 1616161616, message: 'Hello World' })
+        .expect(201);
+      expect(a.body.signature).toMatch(/^[a-f0-9]{64}$/);
+      expect(a.body.signature).toBe(b.body.signature);
+    });
+  });
+
   afterEach(async () => {
     await app.close();
   });
