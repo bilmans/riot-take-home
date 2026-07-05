@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ENCRYPTOR } from './encryptor';
 import type { Encryptor } from './encryptor';
+import type { JsonObject } from '../common/types';
 
 @Injectable()
 export class EncryptionService {
   constructor(@Inject(ENCRYPTOR) private readonly encryptor: Encryptor) {}
 
-  encrypt(payload: Record<string, unknown>): Record<string, string> {
+  encrypt(payload: JsonObject): Record<string, string> {
     return Object.fromEntries(
       Object.entries(payload).map(([key, value]) => [
         key,
@@ -15,7 +16,7 @@ export class EncryptionService {
     );
   }
 
-  decrypt(payload: Record<string, unknown>): Record<string, unknown> {
+  decrypt(payload: JsonObject): JsonObject {
     return Object.fromEntries(
       Object.entries(payload).map(([key, value]) => [
         key,
