@@ -97,6 +97,46 @@ describe('AppController (e2e)', () => {
     });
   });
 
+  describe('/verify (POST)', () => {
+    const data = { message: 'Hello World', timestamp: 1616161616 };
+    const sign = (payload: Record<string, unknown>): Promise<string> =>
+      request(app.getHttpServer())
+        .post('/sign')
+        .send(payload)
+        .then((res) => res.body.signature);
+
+    it('returns 204 for a valid signature', async () => {
+      const signature = await sign(data);
+      return request(app.getHttpServer())
+        .post('/verify')
+        .send({ signature, data })
+        .expect(204);
+    });
+
+    it('returns 204 regardless of data property order', async () => {
+      const signature = await sign(data);
+      return request(app.getHttpServer())
+        .post('/verify')
+        .send({ signature, data: { timestamp: 1616161616, message: 'Hello World' } })
+        .expect(204);
+    });
+
+    it('returns 400 for a tampered payload', async () => {
+      const signature = await sign(data);
+      return request(app.getHttpServer())
+        .post('/verify')
+        .send({ signature, data: { message: 'Goodbye World', timestamp: 1616161616 } })
+        .expect(400);
+    });
+
+    it('returns 400 for a tampered signature', () => {
+      return request(app.getHttpServer())
+        .post('/verify')
+        .send({ signature: 'deadbeef', data })
+        .expect(400);
+    });
+  });
+
   afterEach(async () => {
     await app.close();
   });
