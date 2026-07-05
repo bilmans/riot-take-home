@@ -9,4 +9,8 @@ export class SignatureService {
   sign(payload: Record<string, unknown>): string {
     return this.signer.sign(payload);
   }
+
+  verify(payload: Record<string, unknown>, signature: string): boolean {
+    return this.signer.verify(payload, signature);
+  }
 }

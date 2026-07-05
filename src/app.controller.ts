@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+} from '@nestjs/common';
 import { EncryptionService } from './encryption/encryption.service';
 import { SignatureService } from './signing/signature.service';
 
@@ -22,5 +28,15 @@ export class AppController {
   @Post('sign')
   sign(@Body() payload: Record<string, unknown>) {
     return { signature: this.signatureService.sign(payload) };
+  }
+
+  @Post('verify')
+  @HttpCode(204)
+  verify(
+    @Body() body: { signature: string; data: Record<string, unknown> },
+  ) {
+    if (!this.signatureService.verify(body.data, body.signature)) {
+      throw new BadRequestException('Invalid signature');
+    }
   }
 }
