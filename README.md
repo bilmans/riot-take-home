@@ -1,216 +1,98 @@
-# Riot Take-Home Technical Challenge
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
 
-## Overview
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-This challenge requires you to build an HTTP API with 4 endpoints that handle JSON payloads for encryption, decryption, signing, and verification operations.
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Requirements
+## Description
 
-### 1. Encryption Endpoint (`/encrypt`)
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-- **Method**: POST
-- **Input**: Any JSON payload
-- **Output**: JSON payload with all properties at depth 1 encrypted
-- **Encryption Algorithm**: Base64 (for simplicity)
+## Project setup
 
-**Example**:
-
-Input:
-
-```json
-{
-  "name": "John Doe",
-  "age": 30,
-  "contact": {
-    "email": "john@example.com",
-    "phone": "123-456-7890"
-  }
-}
+```bash
+$ npm install
 ```
 
-Output:
+## Compile and run the project
 
-```json
-{
-  "name": "some_encrypted_value",
-  "age": "some_encrypted_value",
-  "contact": "some_encrypted_value"
-}
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
 ```
 
-### 2. Decryption Endpoint (`/decrypt`)
+## Run tests
 
-- **Method**: POST
-- **Input**: Any JSON payload
-- **Output**: Original JSON payload with decrypted values. If some properties contain values which were not encrypted, they must remain unchanged. The `/decrypt` endpoint should be able to detect encrypted strings and decrypt, returning  the decrypted payload as JSON.
-- **Decryption Algorithm**: Base64 (for simplicity)
+```bash
+# unit tests
+$ npm run test
 
-**Examples**:
+# e2e tests
+$ npm run test:e2e
 
-Using the output from the `/encrypt` example as input should return the original payload:
-
-Input:
-
-```json
-{
-  "name": "some_encrypted_value",
-  "age": "some_encrypted_value",
-  "contact": "some_encrypted_value"
-}
+# test coverage
+$ npm run test:cov
 ```
 
-Output:
+## Deployment
 
-```json
-{
-  "name": "John Doe",
-  "age": 30,
-  "contact": {
-    "email": "john@example.com",
-    "phone": "123-456-7890"
-  }
-}
+When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+
+If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+
+```bash
+$ npm install -g @nestjs/mau
+$ mau deploy
 ```
 
-Unencrypted properties must remain unchanged:
+With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
-Input:
+## Resources
 
-```json
-{
-  "name": "some_encrypted_value",
-  "age": "some_encrypted_value",
-  "contact": "some_encrypted_value",
-  "birth_date": "1998-11-19"
-}
-```
+Check out a few resources that may come in handy when working with NestJS:
 
-Output:
+- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
+- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
+- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
+- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
+- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
+- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
+- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
+- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-```json
-{
-  "name": "John Doe",
-  "age": 30,
-  "contact": {
-    "email": "john@example.com",
-    "phone": "123-456-7890"
-  },
-  "birth_date": "1998-11-19" // This remains unchanged
-}
-```
+## Support
 
-### 3. Signing Endpoint (`/sign`)
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-- **Method**: POST
-- **Input**: Any JSON payload
-- **Output**: JSON payload with a unique "signature" property
-- **Signature Algorithm**: HMAC
-- **Important Note**: The signature must be computed based on the value of the JSON payload, not its string representation. This means the order of properties should not affect the signature.
+## Stay in touch
 
-**Examples**:
+- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-Basic example for an object with two properties:
+## License
 
-Input:
-
-```json
-{
-  "message": "Hello World",
-  "timestamp": 1616161616
-}
-```
-
-Output:
-
-```json
-{
-  "signature": "a1b2c3d4e5f6g7h8i9j0..."
-}
-```
-
-The order of properties must not change the signature, which means this example will generate the same signature:
-
-Input:
-
-```json
-{
-  "timestamp": 1616161616,
-  "message": "Hello World"
-}
-```
-
-Output:
-
-```json
-{
-  "signature": "a1b2c3d4e5f6g7h8i9j0..."
-}
-```
-
-### 4. Verification Endpoint (`/verify`)
-
-- **Method**: POST
-- **Input**: JSON payload with "signature" and "data" properties
-- **Output**:
-  - HTTP 204 (No Content) if signature is valid
-  - HTTP 400 (Bad Request) if signature is invalid
-
-**Examples**:
-
-Basic example of an object with two properties:
-
-Input:
-
-```json
-{
-  "signature": "a1b2c3d4e5f6g7h8i9j0...",
-  "data": {
-    "message": "Hello World",
-    "timestamp": 1616161616
-  }
-}
-```
-
-Output: 204 HTTP response
-
-The same input object with the order of properties changed must produce the same signature:
-
-Input:
-
-```json
-{
-  "signature": "a1b2c3d4e5f6g7h8i9j0...",
-  "data": {
-    "timestamp": 1616161616,
-    "message": "Hello World"
-  }
-}
-```
-
-Output: 204 HTTP response
-
-Example when using a tampered signature or payload:
-
-Input:
-
-```json
-{
-  "signature": "a1b2c3d4e5f6g7h8i9j0...",
-  "data": {
-    "timestamp": 1616161616,
-    "message": "Goodbye World"
-  }
-}
-```
-
-Output: 400 HTTP response
-
-## Design Considerations
-
-1. **Abstraction**: The encryption algorithm (Base64) in the `/encrypt` and `/decrypt` endpoints should be easily replaceable with another algorithm without significant changes to the codebase. Design your solution with appropriate abstractions. The same principle applies to the signature algorithm used in the `/sign` and `/verify` endpoints.
-
-2. **Consistency**: Ensure that `/encrypt` followed by `/decrypt` returns the original payload. Ensure that a payload signed with `/sign` can be successfully verified with `/verify`.
-
-## Submission
-
-Please submit your completed project by sending your GitHub repository link to the recruiter's email.
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
